@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { Box, Image as ImageIcon } from 'lucide-react';
+import { Hero3DCanvas } from '../components/Hero3DCanvas';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { CAKE_SHOWCASE, CakeShowcaseItem } from '../data/menu';
 import { getWhatsAppCakeInquiryUrl } from '../utils/whatsapp';
-import { WhatsAppIcon } from '../components/WhatsAppIcon';
 
 type CakeFilter = 'All' | 'Birthday' | 'Anniversary' | 'Custom' | 'Classic';
 
@@ -9,6 +11,7 @@ const CAKE_FILTERS: CakeFilter[] = ['All', 'Birthday', 'Anniversary', 'Custom', 
 
 export const CakesPage: React.FC = () => {
   const [filter, setFilter] = useState<CakeFilter>('All');
+  const [show3DShowcase, setShow3DShowcase] = useState(true);
 
   const displayedCakes: CakeShowcaseItem[] =
     filter === 'All'
@@ -31,8 +34,74 @@ export const CakesPage: React.FC = () => {
         </p>
       </div>
 
+      {/* Interactive 3D Celebration Cake Preview Banner (Moved from Home to Cakes) */}
+      <div className="mt-7 bg-white border border-[#E9E5DE] rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-12 items-center shadow-xs">
+        <div className="md:col-span-6 p-6 sm:p-8 space-y-3">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#873D35] bg-[#F1EEE8] px-3 py-1 rounded-full inline-block">
+            Custom Bakery Showcase
+          </span>
+          <h2 className="text-2xl font-bold text-[#302C28]">
+            Celebration Cakes Made Fresh to Order
+          </h2>
+          <p className="text-sm text-[#89847D] leading-relaxed">
+            Explore our signature layered cakes in interactive 3D or reach out directly on WhatsApp for custom designs, weights, and flavours.
+          </p>
+          <div className="pt-1">
+            <a
+              href={getWhatsAppCakeInquiryUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366] hover:bg-[#1EBE5B] text-white text-sm font-semibold transition"
+            >
+              <WhatsAppIcon className="w-4 h-4" />
+              <span>Enquire on WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="md:col-span-6 relative bg-gradient-to-b from-[#FDFCFB] to-[#F1EEE8] h-[300px] sm:h-[340px] flex items-center justify-center">
+          <div className="absolute top-3 right-3 z-20 flex items-center bg-white/90 backdrop-blur-md border border-[#E9E5DE] rounded-full p-1 text-xs">
+            <button
+              type="button"
+              onClick={() => setShow3DShowcase(true)}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-full font-medium transition ${
+                show3DShowcase ? 'bg-[#873D35] text-white' : 'text-[#89847D]'
+              }`}
+            >
+              <Box className="w-3.5 h-3.5" />
+              <span>3D</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setShow3DShowcase(false)}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-full font-medium transition ${
+                !show3DShowcase ? 'bg-[#873D35] text-white' : 'text-[#89847D]'
+              }`}
+            >
+              <ImageIcon className="w-3.5 h-3.5" />
+              <span>Photo</span>
+            </button>
+          </div>
+
+          {show3DShowcase ? (
+            <>
+              <Hero3DCanvas />
+              <span className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none text-[11px] text-[#89847D] bg-white/85 px-3 py-1 rounded-full border border-[#E9E5DE]">
+                Drag or touch to rotate 3D cake
+              </span>
+            </>
+          ) : (
+            <img
+              src="/images/hero-cake.jpg"
+              alt="Cake World Celebration Cake"
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
+      </div>
+
       {/* Occasion Filter Pills */}
-      <div className="mt-5 flex items-center justify-center gap-2 flex-wrap">
+      <div className="mt-8 flex items-center justify-center gap-2 flex-wrap">
         {CAKE_FILTERS.map((f) => (
           <button
             key={f}
@@ -50,7 +119,7 @@ export const CakesPage: React.FC = () => {
       </div>
 
       {/* Cakes Grid */}
-      <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+      <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
         {displayedCakes.map((cake) => (
           <div
             key={cake.id}
@@ -90,26 +159,6 @@ export const CakesPage: React.FC = () => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* General Enquiry CTA */}
-      <div className="mt-10 bg-[#F1EEE8] border border-[#E9E5DE] rounded-3xl p-6 sm:p-8 text-center max-w-2xl mx-auto">
-        <h2 className="text-xl sm:text-2xl font-bold text-[#302C28]">
-          Need a Custom Cake?
-        </h2>
-        <p className="mt-2 text-sm text-[#89847D]">
-          Contact us on WhatsApp with your design, flavour preferences, and event date.
-          We'll help you create the perfect celebration cake.
-        </p>
-        <a
-          href={getWhatsAppCakeInquiryUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 mt-5 px-6 py-3 rounded-full bg-[#25D366] hover:bg-[#1EBE5B] text-white text-sm font-semibold transition"
-        >
-          <WhatsAppIcon className="w-4 h-4" />
-          <span>Enquire on WhatsApp</span>
-        </a>
       </div>
     </div>
   );

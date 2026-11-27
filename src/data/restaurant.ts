@@ -4,7 +4,7 @@ export const RESTAURANT_INFO = {
   city: 'Anakapalli',
   tagline: 'Good Food. Beautiful Moments.',
   heroSubheading:
-    'Discover delicious cakes, pizzas, biryanis and your favourite restaurant dishes, all in one place.',
+    'Biryanis, Tandoori, Starters, Curries, Pizzas & Fresh Cakes — crafted daily in Anakapalli.',
   phoneDisplay: '+91 81252 07669',
   phoneRaw: '918125207669',
   whatsappNumber: '918125207669',

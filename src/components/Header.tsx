@@ -12,9 +12,10 @@ interface HeaderProps {
 const DESKTOP_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/menu', label: 'Menu' },
-  { to: '/cakes', label: 'Cakes' },
   { to: '/biryani', label: 'Biryani' },
-  { to: '/about', label: 'About Us' },
+  { to: '/menu/tandoori', label: 'Tandoori' },
+  { to: '/cakes', label: 'Cakes' },
+  { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
 

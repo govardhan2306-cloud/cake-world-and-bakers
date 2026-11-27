@@ -23,8 +23,8 @@ interface MobileDrawerProps {
 const DRAWER_LINKS = [
   { to: '/', label: 'Home', icon: Home },
   { to: '/menu', label: 'Menu', icon: UtensilsCrossed },
-  { to: '/cakes', label: 'Cakes', icon: CakeSlice },
   { to: '/biryani', label: 'Biryani', icon: Flame },
+  { to: '/cakes', label: 'Cakes', icon: CakeSlice },
   { to: '/cart', label: 'Your Cart', icon: ShoppingBag },
   { to: '/about', label: 'About Us', icon: Info },
   { to: '/contact', label: 'Contact Us', icon: Phone },
