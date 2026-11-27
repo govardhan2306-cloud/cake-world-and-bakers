@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -17,7 +18,12 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
 
   if (variant === 'grid') {
     return (
-      <article className="group bg-white border border-[#E9E5DE] rounded-2xl overflow-hidden flex flex-col justify-between transition hover:border-[#873D35]/30">
+      <motion.article
+        whileHover={{ y: -3 }}
+        whileTap={{ scale: 0.99 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className="group bg-white border border-[#E9E5DE] rounded-2xl overflow-hidden flex flex-col justify-between transition-shadow duration-200 hover:shadow-md hover:border-[#873D35]/30"
+      >
         <Link to={`/item/${item.id}`} className="block">
           <div className="aspect-[4/3] w-full overflow-hidden bg-[#F1EEE8]">
             <img
@@ -55,14 +61,16 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
             ₹{item.price}
           </span>
           {qty === 0 ? (
-            <button
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.86 }}
+              whileHover={{ scale: 1.08 }}
               onClick={() => addItem(item, 1)}
               aria-label={`Add ${item.name} to cart`}
-              className="w-8 h-8 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white flex items-center justify-center transition active:scale-95"
+              className="w-8 h-8 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white flex items-center justify-center transition-colors"
             >
               <Plus className="w-4 h-4" />
-            </button>
+            </motion.button>
           ) : (
             <QuantityControl
               quantity={qty}
@@ -71,13 +79,17 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
             />
           )}
         </div>
-      </article>
+      </motion.article>
     );
   }
 
   // List variant — matches the Category & Biryani screens in the visual reference
   return (
-    <article className="bg-white border border-[#E9E5DE] rounded-2xl p-3 flex items-center justify-between gap-3 transition hover:border-[#873D35]/30">
+    <motion.article
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
+      className="group bg-white border border-[#E9E5DE] rounded-2xl p-3 flex items-center justify-between gap-3 transition-shadow duration-200 hover:shadow-sm hover:border-[#873D35]/30"
+    >
       <Link
         to={`/item/${item.id}`}
         className="flex items-center gap-3.5 min-w-0 flex-1"
@@ -124,14 +136,16 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
 
       <div className="shrink-0">
         {qty === 0 ? (
-          <button
+          <motion.button
             type="button"
+            whileTap={{ scale: 0.86 }}
+            whileHover={{ scale: 1.08 }}
             onClick={() => addItem(item, 1)}
             aria-label={`Add ${item.name} to cart`}
-            className="w-9 h-9 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white flex items-center justify-center transition active:scale-95 shadow-xs"
+            className="w-9 h-9 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white flex items-center justify-center transition-colors shadow-xs"
           >
             <Plus className="w-4.5 h-4.5" />
-          </button>
+          </motion.button>
         ) : (
           <QuantityControl
             quantity={qty}
@@ -140,6 +154,6 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
           />
         )}
       </div>
-    </article>
+    </motion.article>
   );
 };

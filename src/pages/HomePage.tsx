@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { Card3D } from '../components/Card3D';
 import { CakeCard } from '../components/CakeCard';
 import { FoodCard } from '../components/FoodCard';
+import { RevealSection, StaggerGrid, StaggerItem } from '../components/MotionPrimitives';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { CAKES_MENU } from '../data/bakery';
 import { MENU_CATEGORIES, MENU_ITEMS } from '../data/menu';
@@ -255,7 +256,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 2. QUICK CUISINE STRIP (Savoury Restaurant Focus First) */}
-      <section className="max-w-6xl mx-auto px-4 mt-6">
+      <RevealSection className="max-w-6xl mx-auto px-4 mt-6">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[#89847D] font-sans">
             Quick Cuisine
@@ -264,32 +265,36 @@ export const HomePage: React.FC = () => {
             All 20 Categories →
           </Link>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5 sm:gap-3.5">
+        <StaggerGrid className="grid grid-cols-3 sm:grid-cols-6 gap-2.5 sm:gap-3.5">
           {QUICK_CUISINE_PILLS.map((pill) => (
-            <Card3D key={pill.label} depth={7}>
-              <Link
-                to={pill.to}
-                className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center text-center transition h-full shadow-2xs hover:shadow-sm"
-              >
-                <div className="w-full aspect-square rounded-xl overflow-hidden bg-[#F1EEE8] mb-1.5">
-                  <img
-                    src={pill.image}
-                    alt={pill.label}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-[#302C28] truncate w-full">
-                  {pill.label}
-                </span>
-              </Link>
-            </Card3D>
+            <StaggerItem key={pill.label}>
+              <Card3D depth={7}>
+                <motion.div whileTap={{ scale: 0.94 }}>
+                  <Link
+                    to={pill.to}
+                    className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center text-center transition h-full shadow-2xs hover:shadow-sm"
+                  >
+                    <div className="w-full aspect-square rounded-xl overflow-hidden bg-[#F1EEE8] mb-1.5">
+                      <img
+                        src={pill.image}
+                        alt={pill.label}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold text-[#302C28] truncate w-full">
+                      {pill.label}
+                    </span>
+                  </Link>
+                </motion.div>
+              </Card3D>
+            </StaggerItem>
           ))}
-        </div>
-      </section>
+        </StaggerGrid>
+      </RevealSection>
 
       {/* 3. SIGNATURE BIRYANIS, TANDOORI & RESTAURANT DISHES (With Live Diet Filter) */}
-      <section className="max-w-6xl mx-auto px-4 mt-12 md:mt-14">
+      <RevealSection className="max-w-6xl mx-auto px-4 mt-12 md:mt-14">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-[#302C28]">
@@ -302,33 +307,45 @@ export const HomePage: React.FC = () => {
 
           <div className="flex items-center gap-2">
             {(['all', 'veg', 'non-veg'] as const).map((filter) => (
-              <button
+              <motion.button
                 key={filter}
                 type="button"
+                whileTap={{ scale: 0.93 }}
                 onClick={() => setSignatureFilter(filter)}
                 className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium border transition ${
                   signatureFilter === filter
-                    ? 'bg-[#873D35] border-[#873D35] text-white'
+                    ? 'bg-[#873D35] border-[#873D35] text-white shadow-xs'
                     : 'bg-white border-[#E9E5DE] text-[#302C28] hover:border-[#873D35]/40'
                 }`}
               >
                 {filter === 'all' ? 'All' : filter === 'veg' ? 'Veg' : 'Non-Veg'}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4"
+        >
           {signatureDishes.map((item) => (
-            <Card3D key={item.id} depth={6}>
-              <FoodCard item={item} variant="grid" />
-            </Card3D>
+            <motion.div
+              key={item.id}
+              layout
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25 }}
+            >
+              <Card3D depth={6}>
+                <FoodCard item={item} variant="grid" />
+              </Card3D>
+            </motion.div>
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </RevealSection>
 
       {/* 4. RESTAURANT DINING EXPERIENCE & AMBIENCE */}
-      <section className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
+      <RevealSection className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
         <div className="bg-white border border-[#E9E5DE] rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-12 items-center shadow-xs">
           <div className="md:col-span-7 relative aspect-[16/10] w-full overflow-hidden bg-[#F1EEE8]">
             <img
@@ -367,10 +384,10 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* 5. POPULAR MENU CATEGORIES */}
-      <section className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
+      <RevealSection className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
         <div className="flex items-end justify-between gap-4 mb-6">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-[#302C28]">
@@ -389,56 +406,62 @@ export const HomePage: React.FC = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+        <StaggerGrid className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
           {popularCategories.map((cat) => (
-            <Card3D key={cat.id} depth={6}>
-              <Link
-                to={`/menu/${cat.slug}`}
-                className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2.5 transition flex flex-col h-full shadow-2xs hover:shadow-sm"
-              >
-                <div className="aspect-[4/3] w-full rounded-xl overflow-hidden bg-[#F1EEE8] mb-2.5">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <h3 className="font-sans text-sm sm:text-[15px] font-semibold text-[#302C28] text-center">
-                  {cat.name}
-                </h3>
-              </Link>
-            </Card3D>
+            <StaggerItem key={cat.id}>
+              <Card3D depth={6}>
+                <motion.div whileTap={{ scale: 0.96 }} className="h-full">
+                  <Link
+                    to={`/menu/${cat.slug}`}
+                    className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2.5 transition flex flex-col h-full shadow-2xs hover:shadow-md"
+                  >
+                    <div className="aspect-[4/3] w-full rounded-xl overflow-hidden bg-[#F1EEE8] mb-2.5">
+                      <img
+                        src={cat.image}
+                        alt={cat.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <h3 className="font-sans text-sm sm:text-[15px] font-semibold text-[#302C28] text-center">
+                      {cat.name}
+                    </h3>
+                  </Link>
+                </motion.div>
+              </Card3D>
+            </StaggerItem>
           ))}
-        </div>
-      </section>
+        </StaggerGrid>
+      </RevealSection>
 
       {/* 6. RESTAURANT HIGHLIGHTS */}
-      <section className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+      <RevealSection className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
+        <StaggerGrid className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
           {HIGHLIGHTS.map((item) => {
             const Icon = item.icon;
             return (
-              <Card3D key={item.title} depth={5}>
-                <div className="bg-white border border-[#E9E5DE] rounded-2xl p-5 flex flex-col items-center text-center h-full shadow-2xs">
-                  <div className="w-11 h-11 rounded-2xl bg-[#F1EEE8] text-[#873D35] flex items-center justify-center mb-3">
-                    <Icon className="w-5 h-5" />
+              <StaggerItem key={item.title}>
+                <Card3D depth={5}>
+                  <div className="bg-white border border-[#E9E5DE] rounded-2xl p-5 flex flex-col items-center text-center h-full shadow-2xs hover:shadow-sm transition-shadow">
+                    <div className="w-11 h-11 rounded-2xl bg-[#F1EEE8] text-[#873D35] flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-sans text-sm sm:text-base font-semibold text-[#302C28]">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#89847D] mt-1.5 leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-                  <h3 className="font-sans text-sm sm:text-base font-semibold text-[#302C28]">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#89847D] mt-1.5 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </Card3D>
+                </Card3D>
+              </StaggerItem>
             );
           })}
-        </div>
-      </section>
+        </StaggerGrid>
+      </RevealSection>
 
       {/* 7. BAKERY & CUSTOM CAKES CORNER (Secondary Specialty Section) */}
-      <section className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
+      <RevealSection className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
         <div className="bg-[#F1EEE8] border border-[#E9E5DE] rounded-3xl p-6 sm:p-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div>
@@ -455,23 +478,25 @@ export const HomePage: React.FC = () => {
             </div>
             <Link
               to="/cakes"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white text-sm font-semibold transition shrink-0 self-start md:self-auto"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white text-sm font-semibold transition shrink-0 self-start md:self-auto active:scale-95"
             >
               <span>View All Cakes &amp; Pastries</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
             {CAKES_MENU.filter((c) => c.bestseller).map((cake) => (
-              <CakeCard key={cake.id} cake={cake} />
+              <StaggerItem key={cake.id}>
+                <CakeCard cake={cake} />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGrid>
         </div>
-      </section>
+      </RevealSection>
 
       {/* 8. LOCATION & CONTACT SECTION */}
-      <section className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
+      <RevealSection className="max-w-6xl mx-auto px-4 mt-12 md:mt-16">
         <div className="bg-white border border-[#E9E5DE] rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xs">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#873D35]">
@@ -502,7 +527,7 @@ export const HomePage: React.FC = () => {
               href={RESTAURANT_INFO.googleMapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white text-sm font-semibold transition"
+              className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white text-sm font-semibold transition active:scale-95"
             >
               <MapPin className="w-4 h-4" />
               <span>Get Directions</span>
@@ -511,14 +536,14 @@ export const HomePage: React.FC = () => {
               href={getWhatsAppGeneralUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#25D366] hover:bg-[#1EBE5B] text-white text-sm font-semibold transition"
+              className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#25D366] hover:bg-[#1EBE5B] text-white text-sm font-semibold transition active:scale-95"
             >
               <WhatsAppIcon className="w-4 h-4" />
               <span>WhatsApp Us</span>
             </a>
           </div>
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 };

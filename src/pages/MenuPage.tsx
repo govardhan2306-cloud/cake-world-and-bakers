@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CakeCard } from '../components/CakeCard';
 import { FoodCard } from '../components/FoodCard';
+import { StaggerGrid, StaggerItem } from '../components/MotionPrimitives';
 import { PastryCard } from '../components/PastryCard';
 import { CAKES_MENU, PASTRIES_MENU } from '../data/bakery';
 import { MENU_CATEGORIES, MENU_ITEMS } from '../data/menu';
@@ -148,47 +150,53 @@ export const MenuPage: React.FC = () => {
       {/* Category Photo Grid */}
       {!normalizedQuery && selectedCategory === 'all' && dietFilter === 'all' && (
         <section className="mt-8" aria-label="Menu Categories">
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4">
+          <StaggerGrid className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4">
             {MENU_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.id}
-                to={`/menu/${cat.slug}`}
-                className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center text-center transition"
-              >
-                <div className="w-full aspect-square rounded-xl overflow-hidden bg-[#F1EEE8] mb-2">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-[#302C28] leading-tight">
-                  {cat.shortName}
-                </span>
-              </Link>
+              <StaggerItem key={cat.id}>
+                <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.95 }} className="h-full">
+                  <Link
+                    to={`/menu/${cat.slug}`}
+                    className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center text-center transition hover:shadow-sm h-full"
+                  >
+                    <div className="w-full aspect-square rounded-xl overflow-hidden bg-[#F1EEE8] mb-2">
+                      <img
+                        src={cat.image}
+                        alt={cat.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold text-[#302C28] leading-tight">
+                      {cat.shortName}
+                    </span>
+                  </Link>
+                </motion.div>
+              </StaggerItem>
             ))}
 
             {BAKERY_CATEGORY_CARDS.map((bcat) => (
-              <Link
-                key={bcat.id}
-                to={bcat.to}
-                className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center text-center transition"
-              >
-                <div className="w-full aspect-square rounded-xl overflow-hidden bg-[#F1EEE8] mb-2">
-                  <img
-                    src={bcat.image}
-                    alt={bcat.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-[#302C28] leading-tight">
-                  {bcat.shortName}
-                </span>
-              </Link>
+              <StaggerItem key={bcat.id}>
+                <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.95 }} className="h-full">
+                  <Link
+                    to={bcat.to}
+                    className="group bg-white border border-[#E9E5DE] hover:border-[#873D35]/40 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center text-center transition hover:shadow-sm h-full"
+                  >
+                    <div className="w-full aspect-square rounded-xl overflow-hidden bg-[#F1EEE8] mb-2">
+                      <img
+                        src={bcat.image}
+                        alt={bcat.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold text-[#302C28] leading-tight">
+                      {bcat.shortName}
+                    </span>
+                  </Link>
+                </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGrid>
         </section>
       )}
 

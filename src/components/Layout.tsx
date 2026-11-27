@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { CartToast } from './CartToast';
 import { Footer } from './Footer';
@@ -20,15 +21,28 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F7F4] text-[#302C28]">
-      <Header onOpenDrawer={() => setDrawerOpen(true)} />
-      <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen flex flex-col bg-[#F8F7F4] text-[#302C28] overflow-x-hidden">
+        <Header onOpenDrawer={() => setDrawerOpen(true)} />
+        <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
-      <main className="flex-1">{children}</main>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.main
+            key={location.pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1"
+          >
+            {children}
+          </motion.main>
+        </AnimatePresence>
 
-      <Footer />
-      <MobileBottomNav />
-      <CartToast />
-    </div>
+        <Footer />
+        <MobileBottomNav />
+        <CartToast />
+      </div>
+    </MotionConfig>
   );
 };
