@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { MenuItem } from '../data/menu';
+import { getCategoryFallbackImage, MenuItem } from '../data/menu';
 import { QuantityControl } from './QuantityControl';
 import { VegBadge } from './VegBadge';
 
@@ -25,6 +25,9 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
               alt={item.name}
               loading="lazy"
               className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = getCategoryFallbackImage(item.categoryId);
+              }}
             />
           </div>
           <div className="p-3.5 pb-2">
@@ -85,6 +88,9 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
             alt={item.name}
             loading="lazy"
             className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = getCategoryFallbackImage(item.categoryId);
+            }}
           />
         </div>
 

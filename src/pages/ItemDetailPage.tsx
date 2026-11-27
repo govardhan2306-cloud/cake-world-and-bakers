@@ -5,7 +5,7 @@ import { FoodCard } from '../components/FoodCard';
 import { QuantityControl } from '../components/QuantityControl';
 import { VegBadge } from '../components/VegBadge';
 import { useCart } from '../context/CartContext';
-import { getItemById, getItemsByCategory, MENU_CATEGORIES } from '../data/menu';
+import { getItemById, getItemsByCategory, getCategoryFallbackImage, MENU_CATEGORIES } from '../data/menu';
 
 export const ItemDetailPage: React.FC = () => {
   const { itemId } = useParams<{ itemId: string }>();
@@ -58,6 +58,9 @@ export const ItemDetailPage: React.FC = () => {
               src={item.image}
               alt={item.name}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = getCategoryFallbackImage(item.categoryId);
+              }}
             />
           </div>
 

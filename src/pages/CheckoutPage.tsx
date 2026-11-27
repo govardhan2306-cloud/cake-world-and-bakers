@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { VegBadge } from '../components/VegBadge';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { useCart } from '../context/CartContext';
+import { getCategoryFallbackImage } from '../data/menu';
 import { CustomerCheckoutDetails, getWhatsAppOrderUrl } from '../utils/whatsapp';
 
 export const CheckoutPage: React.FC = () => {
@@ -226,6 +227,9 @@ export const CheckoutPage: React.FC = () => {
                         src={item.image}
                         alt={item.name}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = getCategoryFallbackImage(item.categoryId);
+                        }}
                       />
                     </div>
                     <div className="flex-1 min-w-0">

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { QuantityControl } from '../components/QuantityControl';
 import { VegBadge } from '../components/VegBadge';
 import { useCart } from '../context/CartContext';
+import { getCategoryFallbackImage } from '../data/menu';
 
 export const CartPage: React.FC = () => {
   const { items, totalItems, subtotal, incrementItem, decrementItem, removeItem, clearCart } =
@@ -65,6 +66,9 @@ export const CartPage: React.FC = () => {
                 alt={item.name}
                 loading="lazy"
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = getCategoryFallbackImage(item.categoryId);
+                }}
               />
             </Link>
 
