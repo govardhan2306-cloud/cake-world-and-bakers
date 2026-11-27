@@ -11,6 +11,30 @@ import { MENU_CATEGORIES, MENU_ITEMS } from '../data/menu';
 
 type DietFilter = 'all' | 'veg' | 'non-veg';
 
+function scoreSearchMatch(
+  query: string,
+  name: string,
+  description = '',
+  categoryLabel = '',
+  bestseller = false
+): number {
+  const n = name.toLowerCase();
+  const d = description.toLowerCase();
+  const c = categoryLabel.toLowerCase();
+  let score = 0;
+
+  if (n === query) score += 100;
+  else if (n.startsWith(query)) score += 80;
+  else if (n.split(/\s+/).some((word) => word.startsWith(query))) score += 60;
+  else if (n.includes(query)) score += 40;
+
+  if (c.includes(query)) score += 20;
+  if (d.includes(query)) score += 10;
+  if (bestseller) score += 5;
+
+  return score;
+}
+
 const BAKERY_CATEGORY_CARDS = [
   {
     id: 'cakes',
@@ -93,6 +117,46 @@ export const MenuPage: React.FC = () => {
     filteredItemsByCategory.length +
     (filteredCakes.length > 0 ? 1 : 0) +
     (filteredPastries.length > 0 ? 1 : 0);
+
+  const rankedSearchResults = useMemo(() => {
+    if (!normalizedQuery) return [];
+
+    type SearchEntry =
+      | { kind: 'food'; score: number; item: (typeof MENU_ITEMS)[number]; categoryName: string }
+      | { kind: 'cake'; score: number; cake: (typeof CAKES_MENU)[number] }
+      | { kind: 'pastry'; score: number; pastry: (typeof PASTRIES_MENU)[number] };
+
+    const entries: SearchEntry[] = [];
+
+    for (const { category, items } of filteredItemsByCategory) {
+      for (const item of items) {
+        entries.push({
+          kind: 'food',
+          score: scoreSearchMatch(normalizedQuery, item.name, item.description, category.name, item.bestseller),
+          item,
+          categoryName: category.shortName,
+        });
+      }
+    }
+
+    for (const cake of filteredCakes) {
+      entries.push({
+        kind: 'cake',
+        score: scoreSearchMatch(normalizedQuery, cake.name, cake.description, 'cakes', cake.bestseller),
+        cake,
+      });
+    }
+
+    for (const pastry of filteredPastries) {
+      entries.push({
+        kind: 'pastry',
+        score: scoreSearchMatch(normalizedQuery, pastry.name, pastry.description, 'pastries', false),
+        pastry,
+      });
+    }
+
+    return entries.sort((a, b) => b.score - a.score);
+  }, [filteredItemsByCategory, filteredCakes, filteredPastries, normalizedQuery]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 pt-6 pb-28 md:pb-16">
@@ -200,60 +264,62 @@ export const MenuPage: React.FC = () => {
         </section>
       )}
 
-      {/* Horizontal Category Jump Pills */}
-      <div className="mt-8 -mx-4 px-4 overflow-x-auto no-scrollbar">
-        <div className="flex items-center gap-2 pb-2 w-max">
-          <button
-            type="button"
-            onClick={() => setSelectedCategory('all')}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium border whitespace-nowrap transition ${
-              selectedCategory === 'all'
-                ? 'bg-[#873D35] border-[#873D35] text-white'
-                : 'bg-white border-[#E9E5DE] text-[#302C28] hover:bg-[#F1EEE8]'
-            }`}
-          >
-            All Categories ({totalCategoriesCount})
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory('cakes')}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium border whitespace-nowrap transition ${
-              selectedCategory === 'cakes'
-                ? 'bg-[#873D35] border-[#873D35] text-white'
-                : 'bg-white border-[#E9E5DE] text-[#302C28] hover:bg-[#F1EEE8]'
-            }`}
-          >
-            Cakes
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedCategory('pastries')}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium border whitespace-nowrap transition ${
-              selectedCategory === 'pastries'
-                ? 'bg-[#873D35] border-[#873D35] text-white'
-                : 'bg-white border-[#E9E5DE] text-[#302C28] hover:bg-[#F1EEE8]'
-            }`}
-          >
-            Pastries
-          </button>
-          {MENU_CATEGORIES.map((cat) => (
+      {/* Horizontal Category Jump Pills (hidden while searching so results appear right at the top) */}
+      {!normalizedQuery && (
+        <div className="mt-8 -mx-4 px-4 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 pb-2 w-max">
             <button
-              key={cat.id}
               type="button"
-              onClick={() => setSelectedCategory(cat.id)}
+              onClick={() => setSelectedCategory('all')}
               className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium border whitespace-nowrap transition ${
-                selectedCategory === cat.id
+                selectedCategory === 'all'
                   ? 'bg-[#873D35] border-[#873D35] text-white'
                   : 'bg-white border-[#E9E5DE] text-[#302C28] hover:bg-[#F1EEE8]'
               }`}
             >
-              {cat.shortName}
+              All Categories ({totalCategoriesCount})
             </button>
-          ))}
+            <button
+              type="button"
+              onClick={() => setSelectedCategory('cakes')}
+              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium border whitespace-nowrap transition ${
+                selectedCategory === 'cakes'
+                  ? 'bg-[#873D35] border-[#873D35] text-white'
+                  : 'bg-white border-[#E9E5DE] text-[#302C28] hover:bg-[#F1EEE8]'
+              }`}
+            >
+              Cakes
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedCategory('pastries')}
+              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium border whitespace-nowrap transition ${
+                selectedCategory === 'pastries'
+                  ? 'bg-[#873D35] border-[#873D35] text-white'
+                  : 'bg-white border-[#E9E5DE] text-[#302C28] hover:bg-[#F1EEE8]'
+              }`}
+            >
+              Pastries
+            </button>
+            {MENU_CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium border whitespace-nowrap transition ${
+                  selectedCategory === cat.id
+                    ? 'bg-[#873D35] border-[#873D35] text-white'
+                    : 'bg-white border-[#E9E5DE] text-[#302C28] hover:bg-[#F1EEE8]'
+                }`}
+              >
+                {cat.shortName}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Filtered / Complete Categorized Dish List */}
+      {/* Filtered / Instant Top Search Results or Categorized Dish List */}
       <div className="mt-6 space-y-10">
         {totalMatchingItems === 0 ? (
           <div className="bg-white border border-[#E9E5DE] rounded-3xl p-10 text-center">
@@ -275,6 +341,46 @@ export const MenuPage: React.FC = () => {
               Reset Filters
             </button>
           </div>
+        ) : normalizedQuery ? (
+          <section aria-label="Search Results" className="space-y-4">
+            <div className="flex items-center justify-between gap-3 border-b border-[#E9E5DE] pb-2.5">
+              <p className="text-xs sm:text-sm font-medium text-[#302C28]">
+                Top matches for <span className="text-[#873D35] font-semibold">“{searchQuery.trim()}”</span>{' '}
+                <span className="text-[#89847D] font-normal">({rankedSearchResults.length} found)</span>
+              </p>
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="text-xs font-semibold text-[#873D35] hover:underline shrink-0"
+              >
+                Clear search
+              </button>
+            </div>
+
+            {rankedSearchResults.some((r) => r.kind === 'food') && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {rankedSearchResults
+                  .filter((r): r is Extract<typeof r, { kind: 'food' }> => r.kind === 'food')
+                  .map(({ item }) => (
+                    <FoodCard key={item.id} item={item} variant="list" />
+                  ))}
+              </div>
+            )}
+
+            {rankedSearchResults.some((r) => r.kind === 'cake' || r.kind === 'pastry') && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+                {rankedSearchResults
+                  .filter((r) => r.kind === 'cake' || r.kind === 'pastry')
+                  .map((entry) =>
+                    entry.kind === 'cake' ? (
+                      <CakeCard key={entry.cake.id} cake={entry.cake} />
+                    ) : (
+                      <PastryCard key={entry.pastry.id} pastry={entry.pastry} />
+                    )
+                  )}
+              </div>
+            )}
+          </section>
         ) : (
           <>
             <p className="text-xs text-[#89847D]">
