@@ -1068,13 +1068,12 @@ export const MENU_ITEMS: MenuItem[] = [
   { id: 'cooler-lassi', name: 'Lassi', categoryId: 'coolers', price: 80, isVeg: true, image: '/images/cat-coolers.jpg', prepTime: '5 mins', spiceLevel: 'Chilled' },
   { id: 'cooler-strawberry', name: 'Strawberry Cooler', categoryId: 'coolers', price: 90, isVeg: true, image: '/images/cat-coolers.jpg', prepTime: '5 mins', spiceLevel: 'Chilled' },
 
-  // ======================== 20. DESSERTS (PDF Page 15) ========================
-  { id: 'dessert-vanilla', name: 'Vanilla Ice Cream', categoryId: 'desserts', price: 80, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5 mins', spiceLevel: 'Sweet' },
-  { id: 'dessert-strawberry', name: 'Strawberry Ice Cream', categoryId: 'desserts', price: 80, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5 mins', spiceLevel: 'Sweet' },
-  { id: 'dessert-butterscotch', name: 'Butterscotch Ice Cream', categoryId: 'desserts', price: 80, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5 mins', spiceLevel: 'Sweet' },
-  { id: 'dessert-black-currant', name: 'Black Currant Ice Cream', categoryId: 'desserts', price: 100, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5 mins', spiceLevel: 'Sweet' },
-  { id: 'dessert-chocolate', name: 'Chocolate Ice Cream', categoryId: 'desserts', price: 100, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5 mins', spiceLevel: 'Sweet' },
-  { id: 'dessert-brownie-ice-cream', name: 'Brownie with Ice Cream', categoryId: 'desserts', price: 170, isVeg: true, image: '/images/cat-desserts.jpg', bestseller: true, prepTime: '8–10 mins', spiceLevel: 'Sweet' },
+  // ======================== 20. DESSERTS ========================
+  { id: 'dessert-choco-lava', name: 'Choco Lava', categoryId: 'desserts', price: 119, isVeg: true, image: '/images/cat-desserts.jpg', bestseller: true, prepTime: '8–10 mins', spiceLevel: 'Sweet' },
+  { id: 'dessert-choco-brownie', name: 'Choco Brownie', categoryId: 'desserts', price: 119, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5–8 mins', spiceLevel: 'Sweet' },
+  { id: 'dessert-apricot-delight', name: 'Apricot Delight', categoryId: 'desserts', price: 200, isVeg: true, image: '/images/cat-desserts.jpg', bestseller: true, prepTime: '5 mins', spiceLevel: 'Sweet' },
+  { id: 'dessert-kunafa-chocolate-small', name: 'Kunafa Chocolate Small', categoryId: 'desserts', price: 100, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5 mins', spiceLevel: 'Sweet' },
+  { id: 'dessert-kunafa-chocolate-big', name: 'Kunafa Chocolate Big', categoryId: 'desserts', price: 169, isVeg: true, image: '/images/cat-desserts.jpg', prepTime: '5 mins', spiceLevel: 'Sweet' },
 ];
 
 /**
