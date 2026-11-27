@@ -14,11 +14,13 @@ import {
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Card3D } from '../components/Card3D';
+import { CakeCard } from '../components/CakeCard';
 import { FoodCard } from '../components/FoodCard';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
-import { CAKE_SHOWCASE, MENU_CATEGORIES, MENU_ITEMS } from '../data/menu';
+import { CAKES_MENU } from '../data/bakery';
+import { MENU_CATEGORIES, MENU_ITEMS } from '../data/menu';
 import { RESTAURANT_INFO } from '../data/restaurant';
-import { getWhatsAppCakeInquiryUrl, getWhatsAppGeneralUrl } from '../utils/whatsapp';
+import { getWhatsAppGeneralUrl } from '../utils/whatsapp';
 
 const QUICK_CUISINE_PILLS = [
   { label: 'Biryani', to: '/biryani', image: '/images/cat-nonveg-biryani.jpg' },
@@ -455,47 +457,14 @@ export const HomePage: React.FC = () => {
               to="/cakes"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white text-sm font-semibold transition shrink-0 self-start md:self-auto"
             >
-              <span>View Cakes &amp; 3D Preview</span>
+              <span>View All Cakes &amp; Pastries</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-            {CAKE_SHOWCASE.map((cake) => (
-              <div
-                key={cake.id}
-                className="bg-white border border-[#E9E5DE] rounded-2xl overflow-hidden flex flex-col justify-between"
-              >
-                <div>
-                  <div className="aspect-[4/3] w-full overflow-hidden bg-[#F1EEE8]">
-                    <img
-                      src={cake.image}
-                      alt={cake.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-3">
-                    <span className="text-[10px] font-semibold uppercase tracking-wide text-[#873D35]">
-                      {cake.category}
-                    </span>
-                    <h3 className="font-sans text-sm font-semibold text-[#302C28] mt-0.5 truncate">
-                      {cake.name}
-                    </h3>
-                  </div>
-                </div>
-                <div className="px-3 pb-3">
-                  <a
-                    href={getWhatsAppCakeInquiryUrl(cake.name)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2 px-3 rounded-full border border-[#E9E5DE] hover:border-[#25D366] text-[#302C28] text-xs font-semibold flex items-center justify-center gap-1.5 transition"
-                  >
-                    <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
-                    <span>Enquire</span>
-                  </a>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+            {CAKES_MENU.filter((c) => c.bestseller).map((cake) => (
+              <CakeCard key={cake.id} cake={cake} />
             ))}
           </div>
         </div>

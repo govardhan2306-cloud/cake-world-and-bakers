@@ -1,6 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { CakeCard } from '../components/CakeCard';
 import { FoodCard } from '../components/FoodCard';
+import { PastryCard } from '../components/PastryCard';
+import { CAKES_MENU, PASTRIES_MENU } from '../data/bakery';
 import { getCategoryBySlug, getItemsByCategory, MENU_CATEGORIES } from '../data/menu';
 
 type FilterType = 'all' | 'veg' | 'non-veg';
@@ -8,6 +11,9 @@ type FilterType = 'all' | 'veg' | 'non-veg';
 export const CategoryPage: React.FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
   const [dietFilter, setDietFilter] = useState<FilterType>('all');
+
+  const isCakesSlug = categorySlug === 'cakes';
+  const isPastriesSlug = categorySlug === 'pastries';
 
   const category = getCategoryBySlug(categorySlug || '');
 
@@ -27,12 +33,69 @@ export const CategoryPage: React.FC = () => {
     );
   }, [allCategoryItems, dietFilter, showVegFilter]);
 
+  if (isCakesSlug || isPastriesSlug) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 pt-6 pb-28 md:pb-16">
+        <div className="text-center max-w-xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-bold text-[#302C28]">
+            {isCakesSlug ? 'Cakes' : 'Pastries'}
+          </h1>
+          <p className="mt-2 text-sm text-[#89847D]">
+            {isCakesSlug
+              ? 'Freshly baked celebration cakes available in 500g and 1kg sizes.'
+              : 'Individual fresh cream and chocolate pastry slices.'}
+          </p>
+        </div>
+
+        <div className="mt-6 -mx-4 px-4 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 pb-1 w-max mx-auto">
+            <Link
+              to="/menu/cakes"
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition ${
+                isCakesSlug
+                  ? 'bg-[#F1EEE8] border-[#873D35] text-[#873D35] font-semibold'
+                  : 'bg-white border-[#E9E5DE] text-[#89847D] hover:text-[#302C28]'
+              }`}
+            >
+              Cakes
+            </Link>
+            <Link
+              to="/menu/pastries"
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition ${
+                isPastriesSlug
+                  ? 'bg-[#F1EEE8] border-[#873D35] text-[#873D35] font-semibold'
+                  : 'bg-white border-[#E9E5DE] text-[#89847D] hover:text-[#302C28]'
+              }`}
+            >
+              Pastries
+            </Link>
+            {MENU_CATEGORIES.map((cat) => (
+              <Link
+                key={cat.id}
+                to={`/menu/${cat.slug}`}
+                className="px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition bg-white border-[#E9E5DE] text-[#89847D] hover:text-[#302C28]"
+              >
+                {cat.shortName}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {isCakesSlug
+            ? CAKES_MENU.map((cake) => <CakeCard key={cake.id} cake={cake} />)
+            : PASTRIES_MENU.map((pastry) => <PastryCard key={pastry.id} pastry={pastry} />)}
+        </div>
+      </div>
+    );
+  }
+
   if (!category) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold text-[#302C28]">Category Not Found</h1>
         <p className="text-sm text-[#89847D] mt-2">
-          We couldn’t find that menu category. Explore all 20 categories below.
+          We couldn’t find that menu category. Explore all categories below.
         </p>
         <Link
           to="/menu"
@@ -46,7 +109,7 @@ export const CategoryPage: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 pt-6 pb-28 md:pb-16">
-      {/* Category Header (Matching Screen 3 of Visual Reference) */}
+      {/* Category Header */}
       <div className="text-center max-w-xl mx-auto">
         <h1 className="text-3xl sm:text-4xl font-bold text-[#302C28]">
           {category.name}
@@ -76,6 +139,18 @@ export const CategoryPage: React.FC = () => {
       {/* Quick horizontal category switcher */}
       <div className="mt-6 -mx-4 px-4 overflow-x-auto no-scrollbar">
         <div className="flex items-center gap-2 pb-1 w-max mx-auto">
+          <Link
+            to="/menu/cakes"
+            className="px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition bg-white border-[#E9E5DE] text-[#89847D] hover:text-[#302C28]"
+          >
+            Cakes
+          </Link>
+          <Link
+            to="/menu/pastries"
+            className="px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition bg-white border-[#E9E5DE] text-[#89847D] hover:text-[#302C28]"
+          >
+            Pastries
+          </Link>
           {MENU_CATEGORIES.map((cat) => (
             <Link
               key={cat.id}
