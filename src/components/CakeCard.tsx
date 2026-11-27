@@ -44,6 +44,9 @@ export const CakeCard: React.FC<CakeCardProps> = ({ cake }) => {
             alt={`${cake.name} Cake`}
             loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/images/hero-cake.jpg';
+            }}
           />
           <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
             <span className="bg-white/95 backdrop-blur-xs px-2 py-1 rounded-full border border-[#E9E5DE] flex items-center gap-1 shadow-2xs">

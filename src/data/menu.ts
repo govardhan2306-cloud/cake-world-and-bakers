@@ -1126,6 +1126,8 @@ export function getItemById(id: string): MenuItem | undefined {
 
 export function getCategoryFallbackImage(categoryId?: string): string {
   if (!categoryId) return '/images/cat-pizza.jpg';
+  if (categoryId === 'cakes') return '/images/hero-cake.jpg';
+  if (categoryId === 'pastries') return '/images/pastry-red-velvet.jpg';
   if (categoryId === 'roti-and-naan') return '/images/cat-roti-naan.jpg';
   if (categoryId === 'non-veg-biryani') return '/images/cat-nonveg-biryani.jpg';
   if (categoryId === 'non-veg-curries') return '/images/cat-nonveg-curries.jpg';

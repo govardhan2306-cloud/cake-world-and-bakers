@@ -58,7 +58,13 @@ export const CartPage: React.FC = () => {
           >
             {/* Thumbnail */}
             <Link
-              to={`/item/${item.id}`}
+              to={
+                item.categoryId === 'cakes'
+                  ? '/cakes'
+                  : item.categoryId === 'pastries'
+                  ? '/menu/pastries'
+                  : `/item/${item.id}`
+              }
               className="w-18 h-18 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-[#F1EEE8] shrink-0"
             >
               <img
@@ -77,9 +83,20 @@ export const CartPage: React.FC = () => {
               <div className="flex items-center gap-1.5 mb-0.5">
                 <VegBadge isVeg={item.isVeg} />
               </div>
-              <h3 className="font-sans text-sm sm:text-[15px] font-semibold text-[#302C28] truncate">
-                {item.name}
-              </h3>
+              <Link
+                to={
+                  item.categoryId === 'cakes'
+                    ? '/cakes'
+                    : item.categoryId === 'pastries'
+                    ? '/menu/pastries'
+                    : `/item/${item.id}`
+                }
+                className="hover:text-[#873D35] transition"
+              >
+                <h3 className="font-sans text-sm sm:text-[15px] font-semibold text-[#302C28] truncate">
+                  {item.name}
+                </h3>
+              </Link>
               <p className="text-sm font-bold text-[#302C28] mt-0.5 tabular-nums">
                 ₹{item.price}
               </p>
