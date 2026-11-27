@@ -7,14 +7,16 @@ type BiryaniFilter = 'all' | 'veg' | 'non-veg';
 export const BiryaniPage: React.FC = () => {
   const [filter, setFilter] = useState<BiryaniFilter>('all');
 
-  const vegBiryanis = useMemo(() => getItemsByCategory('veg-biryani'), []);
-  const nonVegBiryanis = useMemo(() => getItemsByCategory('non-veg-biryani'), []);
+  const allBiryanis = useMemo(
+    () => [...getItemsByCategory('veg-biryani'), ...getItemsByCategory('non-veg-biryani')],
+    []
+  );
 
   const displayed = useMemo(() => {
-    if (filter === 'veg') return vegBiryanis;
-    if (filter === 'non-veg') return nonVegBiryanis;
-    return [...vegBiryanis, ...nonVegBiryanis];
-  }, [filter, vegBiryanis, nonVegBiryanis]);
+    if (filter === 'veg') return allBiryanis.filter((item) => item.isVeg);
+    if (filter === 'non-veg') return allBiryanis.filter((item) => !item.isVeg);
+    return allBiryanis;
+  }, [filter, allBiryanis]);
 
   const familyPacks = displayed.filter((item) => item.isFamilyPack);
   const regularItems = displayed.filter((item) => !item.isFamilyPack);
