@@ -1,11 +1,14 @@
 import React from 'react';
-import { Clock, MapPin, Phone } from 'lucide-react';
+import { Clock, Download, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { RESTAURANT_INFO } from '../data/restaurant';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 import { getWhatsAppGeneralUrl } from '../utils/whatsapp';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 export const Footer: React.FC = () => {
+  const { canInstall, isInstalled, promptInstall } = usePWAInstall();
+
   return (
     <footer className="bg-[#F1EEE8] border-t border-[#E9E5DE] text-[#302C28] pt-12 pb-24 md:pb-12">
       <div className="max-w-6xl mx-auto px-4">
@@ -39,6 +42,16 @@ export const Footer: React.FC = () => {
                 <Phone className="w-4 h-4 text-[#873D35]" />
                 <span>{RESTAURANT_INFO.phoneDisplay}</span>
               </a>
+              {canInstall && !isInstalled && (
+                <button
+                  type="button"
+                  onClick={promptInstall}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white text-sm font-medium transition cursor-pointer"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Install App</span>
+                </button>
+              )}
             </div>
           </div>
 

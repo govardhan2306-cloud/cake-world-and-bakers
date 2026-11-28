@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   CakeSlice,
+  Download,
   Flame,
   Home,
   Info,
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 import { getWhatsAppGeneralUrl } from '../utils/whatsapp';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
@@ -34,6 +36,8 @@ const DRAWER_LINKS = [
 ];
 
 export const MobileDrawer: React.FC<MobileDrawerProps> = ({ open, onClose }) => {
+  const { canInstall, isInstalled, promptInstall } = usePWAInstall();
+
   useEffect(() => {
     if (!open) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -110,7 +114,20 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ open, onClose }) => 
               </nav>
             </div>
 
-            <div className="pt-4 border-t border-[#E9E5DE]">
+            <div className="pt-4 border-t border-[#E9E5DE] space-y-2.5">
+              {canInstall && !isInstalled && (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await promptInstall();
+                    onClose();
+                  }}
+                  className="w-full py-3 px-4 rounded-full bg-white border border-[#873D35]/40 hover:bg-[#F1EEE8] text-[#873D35] font-semibold text-sm flex items-center justify-center gap-2 transition active:scale-98"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Install App</span>
+                </button>
+              )}
               <a
                 href={getWhatsAppGeneralUrl()}
                 target="_blank"
