@@ -78,8 +78,8 @@ export const PoliciesPage: React.FC = () => {
       </div>
 
       {/* Policy Tab Switcher */}
-      <div className="mt-8 -mx-4 px-4 overflow-x-auto no-scrollbar">
-        <div className="flex items-center gap-2 pb-2 w-max mx-auto border-b border-[#E9E5DE]">
+      <div className="mt-8 pb-3 border-b border-[#E9E5DE]">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           {POLICY_TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;

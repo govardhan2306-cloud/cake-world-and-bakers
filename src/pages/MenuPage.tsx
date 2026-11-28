@@ -178,7 +178,7 @@ export const MenuPage: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search for dishes, cakes, or pastries..."
             aria-label="Search for dishes"
-            className="w-full pl-11 pr-10 py-3 rounded-full bg-white border border-[#E9E5DE] focus:border-[#873D35] focus:outline-none text-sm text-[#302C28] placeholder:text-[#89847D] transition"
+            className="w-full pl-11 pr-10 py-3 rounded-full bg-white border border-[#E9E5DE] focus:border-[#873D35] focus:outline-none text-base sm:text-sm text-[#302C28] placeholder:text-[#89847D] transition"
           />
           {searchQuery && (
             <button
@@ -266,7 +266,7 @@ export const MenuPage: React.FC = () => {
 
       {/* Horizontal Category Jump Pills (hidden while searching so results appear right at the top) */}
       {!normalizedQuery && (
-        <div className="mt-8 -mx-4 px-4 overflow-x-auto no-scrollbar">
+        <div className="mt-8 w-full overflow-x-auto no-scrollbar">
           <div className="flex items-center gap-2 pb-2 w-max">
             <button
               type="button"

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface Card3DProps {
@@ -16,13 +16,11 @@ export const Card3D: React.FC<Card3DProps> = ({
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [canHover, setCanHover] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      setCanHover(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
-    }
-  }, []);
+  const [canHover] = useState(() =>
+    typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+      ? window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      : false
+  );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!canHover) return;

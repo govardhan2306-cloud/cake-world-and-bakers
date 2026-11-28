@@ -22,7 +22,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="min-h-screen flex flex-col bg-[#F8F7F4] text-[#302C28] overflow-x-hidden">
+      <div className="min-h-screen flex flex-col bg-[#F8F7F4] text-[#302C28] overflow-x-clip">
         <Header onOpenDrawer={() => setDrawerOpen(true)} />
         <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
 

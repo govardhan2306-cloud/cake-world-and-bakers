@@ -3,7 +3,7 @@ import { motion, Variants } from 'framer-motion';
 
 export const VIEWPORT_CONFIG = {
   once: true,
-  amount: 0.08 as const,
+  amount: 'some' as const,
 };
 
 export const fadeUpVariants: Variants = {

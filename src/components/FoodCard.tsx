@@ -30,6 +30,7 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
               src={item.image}
               alt={item.name}
               loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = getCategoryFallbackImage(item.categoryId);
@@ -99,6 +100,7 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item, variant = 'list' }) =>
             src={item.image}
             alt={item.name}
             loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = getCategoryFallbackImage(item.categoryId);

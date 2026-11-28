@@ -92,7 +92,7 @@ export const CheckoutPage: React.FC = () => {
   const inputClass = (field: string) =>
     `w-full px-4 py-3 rounded-xl bg-white border ${
       errors[field] ? 'border-[#B83227]' : 'border-[#E9E5DE] focus:border-[#873D35]'
-    } focus:outline-none text-sm text-[#302C28] placeholder:text-[#89847D] transition`;
+    } focus:outline-none text-base sm:text-sm text-[#302C28] placeholder:text-[#89847D] transition`;
 
   return (
     <div className="max-w-5xl mx-auto px-4 pt-5 pb-28 md:pb-16">

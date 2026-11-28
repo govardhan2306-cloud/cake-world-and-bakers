@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CakeCard } from '../components/CakeCard';
 import { FoodCard } from '../components/FoodCard';
@@ -11,6 +11,10 @@ type FilterType = 'all' | 'veg' | 'non-veg';
 export const CategoryPage: React.FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
   const [dietFilter, setDietFilter] = useState<FilterType>('all');
+
+  useEffect(() => {
+    setDietFilter('all');
+  }, [categorySlug]);
 
   const isCakesSlug = categorySlug === 'cakes';
   const isPastriesSlug = categorySlug === 'pastries';
@@ -47,8 +51,8 @@ export const CategoryPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-6 -mx-4 px-4 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-2 pb-1 w-max mx-auto">
+        <div className="mt-6 w-full overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 pb-1 w-max">
             <Link
               to="/menu/cakes"
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition ${
@@ -137,8 +141,8 @@ export const CategoryPage: React.FC = () => {
       </div>
 
       {/* Quick horizontal category switcher */}
-      <div className="mt-6 -mx-4 px-4 overflow-x-auto no-scrollbar">
-        <div className="flex items-center gap-2 pb-1 w-max mx-auto">
+      <div className="mt-6 w-full overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-2 pb-1 w-max">
           <Link
             to="/menu/cakes"
             className="px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition bg-white border-[#E9E5DE] text-[#89847D] hover:text-[#302C28]"

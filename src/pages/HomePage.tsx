@@ -104,7 +104,7 @@ export const HomePage: React.FC = () => {
   );
 
   return (
-    <div className="pb-24 md:pb-12 overflow-x-hidden">
+    <div className="pb-24 md:pb-12 overflow-x-clip">
       {/* 1. RESTAURANT-FIRST HERO SECTION */}
       <section className="max-w-6xl mx-auto px-4 pt-4 sm:pt-6 md:pt-8">
         {/* Mobile Editorial Dark Culinary Hero (Matches Mobile Preview Screen 1) */}
@@ -118,6 +118,8 @@ export const HomePage: React.FC = () => {
             <img
               src="/images/cat-nonveg-biryani.jpg"
               alt="Hyderabadi Chicken Dum Biryani at Cake World Bakers & Restaurant"
+              fetchPriority="high"
+              decoding="sync"
               className="w-full h-full object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#191512] via-[#191512]/55 to-[#191512]/20" />
@@ -223,6 +225,8 @@ export const HomePage: React.FC = () => {
               <img
                 src="/images/cat-nonveg-biryani.jpg"
                 alt="Hyderabadi Chicken Dum Biryani, Tandoori & Naan Spread"
+                fetchPriority="high"
+                decoding="sync"
                 className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
               />
               {/* Floating secondary dish preview chips for layered 3D restaurant depth */}
@@ -324,24 +328,15 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
           {signatureDishes.map((item) => (
-            <motion.div
-              key={item.id}
-              layout
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.25 }}
-            >
+            <div key={item.id}>
               <Card3D depth={6}>
                 <FoodCard item={item} variant="grid" />
               </Card3D>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </RevealSection>
 
       {/* 4. RESTAURANT DINING EXPERIENCE & AMBIENCE */}
