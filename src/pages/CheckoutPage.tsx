@@ -280,6 +280,18 @@ export const CheckoutPage: React.FC = () => {
                 Please send the pre-filled message to confirm.
               </p>
 
+              <p className="text-[10px] text-[#89847D] text-center">
+                By placing your order, you agree to our{' '}
+                <Link to="/policies#terms" className="underline hover:text-[#873D35]" target="_blank">
+                  Terms
+                </Link>{' '}
+                &amp;{' '}
+                <Link to="/policies#refund" className="underline hover:text-[#873D35]" target="_blank">
+                  Refund Policy
+                </Link>
+                .
+              </p>
+
               {submitted && Object.keys(errors).length > 0 && (
                 <div className="bg-[#B83227]/5 border border-[#B83227]/20 rounded-xl p-3 text-xs text-[#B83227] flex items-start gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />

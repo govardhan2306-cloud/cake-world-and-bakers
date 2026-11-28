@@ -6,6 +6,7 @@ import {
   Info,
   MapPin,
   Phone,
+  ShieldCheck,
   ShoppingBag,
   UtensilsCrossed,
   X,
@@ -29,6 +30,7 @@ const DRAWER_LINKS = [
   { to: '/about', label: 'About Us', icon: Info },
   { to: '/contact', label: 'Contact Us', icon: Phone },
   { to: '/location', label: 'Location & Map', icon: MapPin },
+  { to: '/policies', label: 'Restaurant Policies', icon: ShieldCheck },
 ];
 
 export const MobileDrawer: React.FC<MobileDrawerProps> = ({ open, onClose }) => {

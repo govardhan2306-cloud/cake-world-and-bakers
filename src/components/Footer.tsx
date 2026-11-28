@@ -78,6 +78,11 @@ export const Footer: React.FC = () => {
                   Location &amp; Directions
                 </Link>
               </li>
+              <li>
+                <Link to="/policies" className="hover:text-[#873D35] transition-colors">
+                  Restaurant Policies
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -112,11 +117,27 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#89847D]">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#89847D]">
           <p>
             © {new Date().getFullYear()} {RESTAURANT_INFO.name}, Anakapalli.
           </p>
-          <p>Authentic Multi-Cuisine Restaurant &amp; Bakery · Direct WhatsApp Ordering</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1.5 text-xs text-[#89847D]">
+            <Link to="/policies#privacy" className="hover:text-[#873D35] transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="opacity-40">·</span>
+            <Link to="/policies#terms" className="hover:text-[#873D35] transition-colors">
+              Terms &amp; Conditions
+            </Link>
+            <span className="opacity-40">·</span>
+            <Link to="/policies#refund" className="hover:text-[#873D35] transition-colors">
+              Refund &amp; Cancellation
+            </Link>
+            <span className="opacity-40">·</span>
+            <Link to="/policies#delivery" className="hover:text-[#873D35] transition-colors">
+              Delivery Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -14,6 +14,7 @@ const CakesPage = lazy(() => import('./pages/CakesPage').then((m) => ({ default:
 const BiryaniPage = lazy(() => import('./pages/BiryaniPage').then((m) => ({ default: m.BiryaniPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
 const LocationPage = lazy(() => import('./pages/LocationPage').then((m) => ({ default: m.LocationPage })));
+const PoliciesPage = lazy(() => import('./pages/PoliciesPage').then((m) => ({ default: m.PoliciesPage })));
 
 const PageLoading: React.FC = () => (
   <div className="flex items-center justify-center min-h-[40vh]">
@@ -39,6 +40,11 @@ const App: React.FC = () => {
               <Route path="/biryani" element={<BiryaniPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/location" element={<LocationPage />} />
+              <Route path="/policies" element={<PoliciesPage />} />
+              <Route path="/privacy-policy" element={<PoliciesPage />} />
+              <Route path="/terms" element={<PoliciesPage />} />
+              <Route path="/refund-policy" element={<PoliciesPage />} />
+              <Route path="/delivery-policy" element={<PoliciesPage />} />
               {/* Catch-all → Home */}
               <Route path="*" element={<HomePage />} />
             </Routes>
