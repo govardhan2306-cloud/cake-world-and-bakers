@@ -4,8 +4,8 @@ interface PreloaderProps {
   onComplete?: () => void;
 }
 
-const MIN_VISIBLE_MS = 450;
-const MAX_FAILSAFE_MS = 3200;
+const MIN_VISIBLE_MS = 1850;
+const MAX_FAILSAFE_MS = 4500;
 const FADE_OUT_MS = 420;
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
@@ -108,14 +108,16 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         return;
       }
 
-      // Before actual readiness: asymptotically approach 90% without reaching 100% prematurely.
-      // Once ready & minimum brand reveal elapsed: glide smoothly to 100%.
-      const target = canFinish ? 100 : Math.min(90, 90 * (1 - Math.exp(-elapsed / 520)));
-      const speed = canFinish ? 0.18 : 0.1;
+      // Before actual readiness or minimum 2s intro: glide naturally up to 94% without prematurely hitting 100%.
+      // Once ready & minimum reveal elapsed: glide smoothly to 100%.
+      const timeRatio = Math.min(1, elapsed / MIN_VISIBLE_MS);
+      const easedRatio = 1 - Math.pow(1 - timeRatio, 2.4);
+      const target = canFinish ? 100 : Math.min(94, 94 * easedRatio);
+      const speed = canFinish ? 0.22 : 0.14;
 
       const next = currentProgressRef.current + (target - currentProgressRef.current) * speed;
 
-      if (canFinish && next >= 99.4) {
+      if (canFinish && next >= 99.5) {
         currentProgressRef.current = 100;
         setProgress(100);
         completePreloader();
@@ -162,6 +164,19 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             : 'opacity-0 translate-y-1.5'
         }`}
       >
+        {/* Official Brand Logo Centered Above Name */}
+        <div className="mb-5 inline-flex items-center justify-center rounded-2xl bg-white px-4 py-2.5 border border-[#E9E5DE]">
+          <img
+            src="/logo.png"
+            alt="Cake World Bakers and Restaurant Logo"
+            width={135}
+            height={96}
+            decoding="sync"
+            fetchPriority="high"
+            className="h-16 sm:h-20 md:h-24 w-auto object-contain"
+          />
+        </div>
+
         <p className="font-serif-display text-2xl sm:text-3xl md:text-[34px] font-semibold tracking-tight text-[#302C28] leading-snug">
           Cake World Bakers and Restaurant
         </p>
