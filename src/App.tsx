@@ -1,6 +1,7 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
+import { Preloader } from './components/Preloader';
 import { CartProvider } from './context/CartContext';
 import { HomePage } from './pages/HomePage';
 
@@ -16,6 +17,25 @@ const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ defa
 const LocationPage = lazy(() => import('./pages/LocationPage').then((m) => ({ default: m.LocationPage })));
 const PoliciesPage = lazy(() => import('./pages/PoliciesPage').then((m) => ({ default: m.PoliciesPage })));
 
+class PreloaderErrorBoundary extends Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): { hasError: boolean } {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
+
 const PageLoading: React.FC = () => (
   <div className="flex items-center justify-center min-h-[40vh]">
     <div className="w-8 h-8 rounded-full border-2 border-[#E9E5DE] border-t-[#873D35] animate-spin" />
@@ -25,6 +45,9 @@ const PageLoading: React.FC = () => (
 const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <PreloaderErrorBoundary>
+        <Preloader />
+      </PreloaderErrorBoundary>
       <CartProvider>
         <Layout>
           <Suspense fallback={<PageLoading />}>
