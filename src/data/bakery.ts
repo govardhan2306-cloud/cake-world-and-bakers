@@ -4,7 +4,7 @@ export interface CakeProduct {
   description: string;
   image: string;
   price500g: number;
-  price1kg: number;
+  price1kg?: number;
   bestseller?: boolean;
 }
 
@@ -23,7 +23,6 @@ export const CAKES_MENU: CakeProduct[] = [
     description: 'Classic light vanilla sponge layered with smooth whipped cream frosting.',
     image: '/images/cake-vanilla.jpg',
     price500g: 330,
-    price1kg: 660,
   },
   {
     id: 'cake-pineapple',
@@ -31,15 +30,14 @@ export const CAKES_MENU: CakeProduct[] = [
     description: 'Soft vanilla sponge infused with juicy pineapple chunks and fresh cream.',
     image: '/images/cake-pineapple.jpg',
     price500g: 380,
-    price1kg: 760,
   },
   {
     id: 'cake-butterscotch',
     name: 'Butterscotch',
     description: 'Caramelized butterscotch sponge finished with crunchy praline bits.',
     image: '/images/cake-butterscotch.jpg',
-    price500g: 350,
-    price1kg: 700,
+    price500g: 380,
+    price1kg: 750,
     bestseller: true,
   },
   {
@@ -56,7 +54,6 @@ export const CAKES_MENU: CakeProduct[] = [
     description: 'Fresh strawberry-glazed sponge layered with whipped strawberry cream.',
     image: '/images/cake-strawberry.jpg',
     price500g: 350,
-    price1kg: 700,
   },
   {
     id: 'cake-choco-chips',
@@ -72,7 +69,7 @@ export const CAKES_MENU: CakeProduct[] = [
     name: 'Choco Symphony',
     description: 'Silky multi-layered chocolate truffle cake with glossy cocoa finish.',
     image: '/images/cake-chocolate-truffle.jpg',
-    price500g: 450,
+    price500g: 480,
     price1kg: 880,
   },
   {
@@ -89,8 +86,7 @@ export const CAKES_MENU: CakeProduct[] = [
     name: 'Milky Badam',
     description: 'Creamy almond-infused sponge topped with toasted badam slivers.',
     image: '/images/cake-fruit.jpg',
-    price500g: 450,
-    price1kg: 900,
+    price500g: 480,
   },
   {
     id: 'cake-black-forest',

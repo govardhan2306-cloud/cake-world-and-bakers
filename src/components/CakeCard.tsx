@@ -13,18 +13,23 @@ interface CakeCardProps {
 type CakeSize = '500g' | '1kg';
 
 export const CakeCard: React.FC<CakeCardProps> = ({ cake }) => {
+  const has1kg = typeof cake.price1kg === 'number';
   const [selectedSize, setSelectedSize] = useState<CakeSize>('500g');
+  const activeSize: CakeSize = has1kg ? selectedSize : '500g';
   const { addItem, getItemQuantity, incrementItem, decrementItem } = useCart();
 
-  const activePrice = selectedSize === '1kg' ? cake.price1kg : cake.price500g;
+  const activePrice =
+    activeSize === '1kg' && typeof cake.price1kg === 'number'
+      ? cake.price1kg
+      : cake.price500g;
 
-  const cartItemId = `${cake.id}-${selectedSize}`;
+  const cartItemId = `${cake.id}-${activeSize}`;
   const qtyInCart = getItemQuantity(cartItemId);
 
   const handleAddToCart = () => {
     const cartPayload: MenuItem = {
       id: cartItemId,
-      name: `${cake.name} Cake (${selectedSize})`,
+      name: `${cake.name} Cake (${activeSize})`,
       categoryId: 'cakes',
       price: activePrice,
       isVeg: true,
@@ -76,12 +81,12 @@ export const CakeCard: React.FC<CakeCardProps> = ({ cake }) => {
             <span className="block text-[11px] font-medium text-[#89847D] mb-1.5">
               Select Weight
             </span>
-            <div className="grid grid-cols-2 gap-2">
+            <div className={`grid ${has1kg ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
               <button
                 type="button"
                 onClick={() => setSelectedSize('500g')}
                 className={`py-1.5 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 ${
-                  selectedSize === '500g'
+                  activeSize === '500g'
                     ? 'bg-[#F1EEE8] border-[#873D35] text-[#873D35]'
                     : 'bg-white border-[#E9E5DE] text-[#302C28] hover:border-[#873D35]/40'
                 }`}
@@ -90,18 +95,20 @@ export const CakeCard: React.FC<CakeCardProps> = ({ cake }) => {
                 <span className="text-[11px] font-normal opacity-80">₹{cake.price500g}</span>
               </button>
 
-              <button
-                type="button"
-                onClick={() => setSelectedSize('1kg')}
-                className={`py-1.5 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 ${
-                  selectedSize === '1kg'
-                    ? 'bg-[#F1EEE8] border-[#873D35] text-[#873D35]'
-                    : 'bg-white border-[#E9E5DE] text-[#302C28] hover:border-[#873D35]/40'
-                }`}
-              >
-                <span>1kg</span>
-                <span className="text-[11px] font-normal opacity-80">₹{cake.price1kg}</span>
-              </button>
+              {has1kg && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedSize('1kg')}
+                  className={`py-1.5 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 ${
+                    activeSize === '1kg'
+                      ? 'bg-[#F1EEE8] border-[#873D35] text-[#873D35]'
+                      : 'bg-white border-[#E9E5DE] text-[#302C28] hover:border-[#873D35]/40'
+                  }`}
+                >
+                  <span>1kg</span>
+                  <span className="text-[11px] font-normal opacity-80">₹{cake.price1kg}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -111,7 +118,7 @@ export const CakeCard: React.FC<CakeCardProps> = ({ cake }) => {
       <div className="px-4 pb-4 pt-2 border-t border-[#E9E5DE]/60 flex items-center justify-between gap-2">
         <div>
           <span className="text-[11px] text-[#89847D] block leading-none mb-0.5">
-            {selectedSize} Price
+            {activeSize} Price
           </span>
           <span className="text-lg font-bold text-[#302C28] tabular-nums">
             ₹{activePrice}
@@ -122,7 +129,7 @@ export const CakeCard: React.FC<CakeCardProps> = ({ cake }) => {
           <button
             type="button"
             onClick={handleAddToCart}
-            aria-label={`Add ${cake.name} (${selectedSize}) to cart`}
+            aria-label={`Add ${cake.name} (${activeSize}) to cart`}
             className="px-4 py-2 rounded-full bg-[#873D35] hover:bg-[#72322B] text-white text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition active:scale-95 shadow-xs"
           >
             <ShoppingBag className="w-3.5 h-3.5" />
